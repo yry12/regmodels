@@ -1,0 +1,59 @@
+## Regression Models - Final Prject
+
+### Load data and check variables available 
+
+We load the data from R package (mtcars) and summarize the data. There are 11 variables total, one of this if the oucome of interest "mpg" and the rest are our potential predictos.
+
+``` {r setoptions, echo=TRUE}
+  require(knitr)
+library(datasets)
+data(mtcars)
+summary(mtcars)
+names(mtcars)
+```
+
+### Look for any potential relation between variables
+
+In order to visualize a relation between mpg and predictors: 1) boxplot, to see the distribution of predictos; and 2) scatter plot, to visualize potential relation 
+
+``` {r}
+  require(knitr)
+par(mfrow = c(1, 2))
+with(mtcars, boxplot(mpg/10, disp/50, hp/50, drat, wt, qsec/5, main = "Boxplots - distribution of predictos"), 
+    xlab = "", ylab = "")
+axisnames <- c("MPG/10", "DISP/50", "HP/50", "drat", "wt", "qsec/5")
+axis(1, at = c(1, 2, 3, 4, 5, 6), labels = axisnames, las = 2, cex.axis = 0.9, 
+    tck = -0.01)
+pairs(mtcars)
+```
+
+Clearly, we can visualize some relation (positive or negative) between outcome and predictors.
+
+### Regression model of transmission on fuel efficiency
+
+The regression model is estimated as follows:
+``` {r}
+  require(knitr)
+mtcarsmodel1 <- lm(mpg ~ am, data = mtcars)
+summary(mtcarsmodel1)
+```
+
+
+The R square resuls show that that automatic transmission explains 36% of the variance in fuel consumption. The intercept shows the mean value of mpg. In both case, the intercept and the predictor as statistical significant. 
+
+More imporant, the coefficient of am show the difference in means between the two groups. 
+This means, that the diffrence in means between autotransmission (am=1) and (am=0) is positive (7.245)and significant. 
+
+##APPENDIX - additional data displays
+
+``` {r}
+  require(knitr)
+data(mtcars)
+with(mtcars, table(cyl))
+with(mtcars, table(am))
+with(mtcars, table(gear))
+with(mtcars, table(carb))
+with(mtcars, table(vs))
+par(mfrow = c(2, 2))
+plot(mtcarsmodel1)
+```
